@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Updated color tokens to match course-selling platform design brief */
+  --background: #ffffff; /* Main page background */
+  --foreground: #4b5563; /* Primary text color */
+  --card: #f9fafb; /* Card backgrounds for course showcases */
+  --card-foreground: #4b5563; /* Text within cards */
+  --popover: #ffffff; /* Popover backgrounds for tooltips or modals */
+  --popover-foreground: #4b5563; /* Text within popovers */
+  --primary: #0891b2; /* Call-to-action buttons */
+  --primary-foreground: #ffffff; /* Text color for CTAs */
+  --secondary: #10b981; /* Highlight elements */
+  --secondary-foreground: #ffffff; /* Text color for secondary elements */
+  --muted: #f9fafb; /* Background for less emphasized sections */
+  --muted-foreground: #4b5563; /* Text color for muted elements */
+  --accent: #10b981; /* Accent elements like icons or highlights */
+  --accent-foreground: #ffffff; /* Text on accent elements */
+  --destructive: #dc2626; /* Error messages or destructive actions */
+  --destructive-foreground: #ffffff; /* Text color for destructive actions */
+  --border: #e5e7eb; /* Borders for cards and sections */
+  --input: #ffffff; /* Input fields background */
+  --ring: rgba(8, 145, 178, 0.5); /* Ring color for focused elements */
+  --chart-1: #059669; /* Chart color 1 */
+  --chart-2: #10b981; /* Chart color 2 */
+  --chart-3: #0891b2; /* Chart color 3 */
+  --chart-4: #dc2626; /* Chart color 4 */
+  --chart-5: #f59e0b; /* Chart color 5 */
+  --radius: 0.5rem; /* Corner rounding for cards and buttons */
+  --sidebar: #f9fafb; /* Sidebar background */
+  --sidebar-foreground: #4b5563; /* Sidebar text */
+  --sidebar-primary: #0891b2; /* Primary sidebar color */
+  --sidebar-primary-foreground: #ffffff; /* Text in sidebar primary */
+  --sidebar-accent: #10b981; /* Sidebar accent color */
+  --sidebar-accent-foreground: #ffffff; /* Text on sidebar accent */
+  --sidebar-border: #e5e7eb; /* Sidebar borders */
+  --sidebar-ring: rgba(8, 145, 178, 0.5); /* Sidebar focused elements */
+}
+
+.dark {
+  --background: #1f2937; /* Dark background */
+  --foreground: #f9fafb; /* Light text */
+  --card: #374151; /* Dark cards */
+  --card-foreground: #f9fafb; /* Light text on cards */
+  --popover: #374151; /* Dark popovers */
+  --popover-foreground: #f9fafb; /* Light text on popovers */
+  --primary: #0891b2; /* Primary remains same */
+  --primary-foreground: #ffffff; /* White text */
+  --secondary: #10b981; /* Secondary remains same */
+  --secondary-foreground: #ffffff; /* White text */
+  --muted: #374151; /* Dark muted */
+  --muted-foreground: #9ca3af; /* Light muted text */
+  --accent: #10b981; /* Accent remains same */
+  --accent-foreground: #ffffff; /* White text */
+  --destructive: #dc2626; /* Error remains same */
+  --destructive-foreground: #ffffff; /* White text */
+  --border: #4b5563; /* Dark border */
+  --input: #374151; /* Dark input */
+  --ring: rgba(8, 145, 178, 0.5); /* Ring remains same */
+  --sidebar: #1f2937; /* Dark sidebar */
+  --sidebar-foreground: #f9fafb; /* Light sidebar text */
+  --sidebar-primary: #0891b2; /* Primary sidebar color */
+  --sidebar-primary-foreground: #ffffff; /* White text */
+  --sidebar-accent: #10b981; /* Sidebar accent color */
+  --sidebar-accent-foreground: #ffffff; /* White text */
+  --sidebar-border: #4b5563; /* Dark sidebar border */
+  --sidebar-ring: rgba(8, 145, 178, 0.5); /* Sidebar ring */
+}
+
+@theme inline {
+  /* Updated font variables to use Playfair Display and Source Sans Pro */
+  --font-sans: "Source Sans Pro", system-ui, sans-serif;
+  --font-heading: "Playfair Display", serif;
+  --font-mono: ui-monospace, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
