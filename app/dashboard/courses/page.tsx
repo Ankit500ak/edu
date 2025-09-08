@@ -1018,3 +1018,541 @@ export function DesignaliCreative() {
     </div>
   )
 }
+
+
+export default function MyCoursesDashboard() {
+  const [search, setSearch] = useState("");
+  const [tab, setTab] = useState<"ongoing" | "completed" | "all">("ongoing");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [notifications, setNotifications] = useState(5);
+  const [username, setUsername] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+  const pathname = usePathname();
+
+  const toggleExpanded = (title: string) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
+
+  // Fetch user profile (copy from DesignaliCreative)
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('username, avatar_url')
+          .eq('id', user.id)
+          .single()
+        if (data && data.username) {
+          setUsername(data.username)
+          setAvatarUrl(data.avatar_url || null)
+        } else if (user.email) {
+          // Show only shortened email: first 3 chars, ... and domain
+          const [name, domain] = user.email.split('@')
+          const shortEmail = name.length > 3 ? name.slice(0, 3) + '...' : name + '...'
+          setUsername(shortEmail + '@' + domain)
+        } else {
+          setUsername('User')
+        }
+      }
+    }
+    fetchProfile()
+  }, [])
+
+  // Example course data with status
+  const myCourses = [
+    {
+      title: "Modern Web Design",
+      category: "Design",
+      instructor: "Sarah Chen",
+      rating: 4.8,
+      students: 1200,
+      price: "$49",
+      image: "/courses/web-design.jpg",
+      progress: 70,
+      status: "ongoing",
+    },
+    {
+      title: "Advanced Illustration",
+      category: "Illustration",
+      instructor: "Michael Rodriguez",
+      rating: 4.7,
+      students: 950,
+      price: "$39",
+      image: "/courses/illustration.jpg",
+      progress: 100,
+      status: "completed",
+    },
+    {
+      title: "UI/UX Mastery",
+      category: "Design",
+      instructor: "Emma Thompson",
+      rating: 4.9,
+      students: 2100,
+      price: "$59",
+      image: "/courses/uiux.jpg",
+      progress: 40,
+      status: "ongoing",
+    },
+    {
+      title: "Typography Essentials",
+      category: "Typography",
+      instructor: "David Kim",
+      rating: 4.6,
+      students: 800,
+      price: "$29",
+      image: "/courses/typography.jpg",
+      progress: 100,
+      status: "completed",
+    },
+  ];
+
+  const filteredCourses = myCourses.filter(
+    (c) => (tab === "all" || c.status === tab) && c.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  // Sidebar items
+  const sidebarItems: SidebarItem[] = [
+    {
+      title: "Dashboard",
+      icon: <Home />,
+      url: "/dashboard",
+      isActive: pathname === "/dashboard" || pathname === "/dashboard/",
+    },
+    {
+      title: "My Courses",
+      icon: <BookOpen />,
+      url: "/dashboard/courses",
+      isActive: pathname === "/dashboard/courses",
+    },
+    {
+      title: "Browse Courses",
+      icon: <Grid />,
+      url: "#",
+    },
+    {
+      title: "Categories",
+      icon: <Layers />,
+      url: "#",
+    },
+    {
+      title: "Instructors",
+      icon: <Users />,
+      url: "#",
+    },
+    {
+      title: "Community",
+      icon: <MessageSquare />,
+      url: "#",
+    },
+    {
+      title: "Resources",
+      icon: <Bookmark />,
+      url: "#",
+    },
+  ]
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-background">
+      {/* Sidebar and header (copied from creative.tsx) */}
+      {/* Sidebar - Mobile */}
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-64 transform bg-background transition-transform duration-300 ease-in-out md:hidden",
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <div className="flex h-full flex-col border-r">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+                <Wand2 className="size-5" />
+              </div>
+              <div>
+                <h2 className="font-semibold">{username || 'User'}</h2>
+                <p className="text-xs text-muted-foreground">Creative Suite</p>
+              </div>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          <div className="px-3 py-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input type="search" placeholder="Search..." className="w-full rounded-2xl bg-muted pl-9 pr-4 py-2" />
+            </div>
+          </div>
+
+          <ScrollArea className="flex-1 px-3 py-2">
+            <div className="space-y-1">
+              {sidebarItems.map((item) => (
+                <div key={item.title} className="mb-1">
+                  {item.onClick ? (
+                    <button
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium transition-colors",
+                        item.isActive ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                      )}
+                      onClick={item.onClick}
+                    >
+                      <div className="flex items-center gap-3">
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && (
+                        <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                          {item.badge}
+                        </Badge>
+                      )}
+                      {item.items && (
+                        <ChevronDown
+                          className={cn(
+                            "ml-2 h-4 w-4 transition-transform",
+                            expandedItems[item.title] ? "rotate-180" : ""
+                          )}
+                        />
+                      )}
+                    </button>
+                  ) : (
+                    <a
+                      href={item.url}
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium transition-colors",
+                        item.isActive ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && (
+                        <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                          {item.badge}
+                        </Badge>
+                      )}
+                      {item.items && (
+                        <ChevronDown
+                          className={cn(
+                            "ml-2 h-4 w-4 transition-transform",
+                            expandedItems[item.title] ? "rotate-180" : ""
+                          )}
+                        />
+                      )}
+                    </a>
+                  )}
+                  {item.items && expandedItems[item.title] && (
+                    <div className="mt-1 ml-6 space-y-1 border-l pl-3">
+                      {item.items.map((subItem) => (
+                        <a
+                          key={subItem.title}
+                          href={subItem.url}
+                          className="flex items-center justify-between rounded-2xl px-3 py-2 text-sm hover:bg-muted"
+                        >
+                          {subItem.title}
+                          {subItem.badge && (
+                            <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                              {subItem.badge}
+                            </Badge>
+                          )}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          <div className="border-t p-3">
+            <div className="space-y-1">
+              <button className="flex w-full items-center gap-3 rounded-2xl px-3 py-2 text-sm font-medium hover:bg-muted">
+                <Settings className="h-5 w-5" />
+                <span>Settings</span>
+              </button>
+              <button className="flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium hover:bg-muted">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-6 w-6">
+                    {avatarUrl ? (
+                      <AvatarImage src={avatarUrl} alt={username || 'User'} />
+                    ) : (
+                      <AvatarFallback>{username ? username.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
+                    )}
+                  </Avatar>
+                  <span>{username || 'User'}</span>
+                </div>
+                <Badge variant="outline" className="ml-auto">
+                  Pro
+                </Badge>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar - Desktop */}
+      <div
+        className={cn(
+          "fixed inset-y-0 left-0 z-30 hidden w-64 transform border-r bg-background transition-transform duration-300 ease-in-out md:block",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <div className="flex h-full flex-col">
+          <div className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex aspect-square size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+                <Wand2 className="size-5" />
+              </div>
+              <div>
+                <h2 className="font-semibold">{username || 'User'}</h2>
+                <p className="text-xs text-muted-foreground">Creative Suite</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="px-3 py-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input type="search" placeholder="Search..." className="w-full rounded-2xl bg-muted pl-9 pr-4 py-2" />
+            </div>
+          </div>
+
+          <ScrollArea className="flex-1 px-3 py-2">
+            <div className="space-y-1">
+              {sidebarItems.map((item) => (
+                <div key={item.title} className="mb-1">
+                  {item.url ? (
+                    <a
+                      href={item.url}
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium transition-colors",
+                        item.isActive ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && (
+                        <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                          {item.badge}
+                        </Badge>
+                      )}
+                      {item.items && (
+                        <ChevronDown
+                          className={cn(
+                            "ml-2 h-4 w-4 transition-transform",
+                            expandedItems[item.title] ? "rotate-180" : ""
+                          )}
+                        />
+                      )}
+                    </a>
+                  ) : (
+                    <button
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium",
+                        item.isActive ? "bg-primary/10 text-primary" : "hover:bg-muted"
+                      )}
+                      onClick={() => item.items && toggleExpanded(item.title)}
+                    >
+                      <div className="flex items-center gap-3">
+                        {item.icon}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && (
+                        <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                          {item.badge}
+                        </Badge>
+                      )}
+                      {item.items && (
+                        <ChevronDown
+                          className={cn(
+                            "ml-2 h-4 w-4 transition-transform",
+                            expandedItems[item.title] ? "rotate-180" : ""
+                          )}
+                        />
+                      )}
+                    </button>
+                  )}
+                  {item.items && expandedItems[item.title] && (
+                    <div className="mt-1 ml-6 space-y-1 border-l pl-3">
+                      {item.items.map((subItem) => (
+                        <a
+                          key={subItem.title}
+                          href={subItem.url}
+                          className="flex items-center justify-between rounded-2xl px-3 py-2 text-sm hover:bg-muted"
+                        >
+                          {subItem.title}
+                          {subItem.badge && (
+                            <Badge variant="outline" className="ml-auto rounded-full px-2 py-0.5 text-xs">
+                              {subItem.badge}
+                            </Badge>
+                          )}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+
+          <div className="border-t p-3">
+            <div className="space-y-1">
+              <button className="flex w-full items-center gap-3 rounded-2xl px-3 py-2 text-sm font-medium hover:bg-muted">
+                <Settings className="h-5 w-5" />
+                <span>Settings</span>
+              </button>
+              <button className="flex w-full items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium hover:bg-muted">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-6 w-6">
+                    {avatarUrl ? (
+                      <AvatarImage src={avatarUrl} alt={username || 'User'} />
+                    ) : (
+                      <AvatarFallback>{username ? username.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
+                    )}
+                  </Avatar>
+                  <span>{username || 'User'}</span>
+                </div>
+                <Badge variant="outline" className="ml-auto">
+                  Pro
+                </Badge>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className={cn("min-h-screen transition-all duration-300 ease-in-out", sidebarOpen ? "md:pl-64" : "md:pl-0")}>
+        <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur">
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(true)}>
+            <Menu className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="icon" className="hidden md:flex" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            <PanelLeft className="h-5 w-5" />
+          </Button>
+          <div className="flex flex-1 items-center justify-between">
+            <h1 className="text-xl font-semibold">Skil Sphere</h1>
+            <div className="flex items-center gap-3">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-2xl">
+                      <Cloud className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Cloud Storage</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-2xl">
+                      <MessageSquare className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Messages</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-2xl relative">
+                      <Bell className="h-5 w-5" />
+                      {notifications > 0 && (
+                        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                          {notifications}
+                        </span>
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Notifications</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <Avatar className="h-9 w-9 border-2 border-primary">
+                <AvatarImage src="/placeholder.svg?height=40&width=40" alt="User" />
+                <AvatarFallback>JD</AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 p-4 md:p-6">
+          {/* My Courses Dashboard Content */}
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+              <div>
+                <h1 className="text-3xl font-bold mb-1">My Courses</h1>
+                <div className="text-muted-foreground text-sm">
+                  {myCourses.length} courses • {myCourses.filter(c => c.status === "ongoing").length} ongoing • {myCourses.filter(c => c.status === "completed").length} completed
+                </div>
+              </div>
+              <div className="flex gap-2 items-center">
+                <Input
+                  type="search"
+                  placeholder="Search courses..."
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  className="w-64 rounded-xl"
+                />
+                <Button variant={tab === "ongoing" ? "default" : "outline"} onClick={() => setTab("ongoing")}>Ongoing</Button>
+                <Button variant={tab === "completed" ? "default" : "outline"} onClick={() => setTab("completed")}>Completed</Button>
+                <Button variant={tab === "all" ? "default" : "outline"} onClick={() => setTab("all")}>All</Button>
+              </div>
+            </div>
+            {filteredCourses.length === 0 ? (
+              <div className="text-center text-muted-foreground py-16 text-lg">No courses found.</div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {filteredCourses.map((course) => (
+                  <Card key={course.title} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 border border-muted">
+                    <div className="relative">
+                      <img src={course.image} alt={course.title} className="h-36 w-full object-cover bg-gray-100" />
+                      <Badge className="absolute top-3 left-3 bg-white/80 text-primary rounded-xl px-3 py-1 text-xs font-semibold shadow">{course.category}</Badge>
+                      {course.status === "completed" && (
+                        <Badge className="absolute top-3 right-3 bg-green-600 text-white rounded-xl px-3 py-1 text-xs font-semibold shadow">Completed</Badge>
+                      )}
+                    </div>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={`/instructors/${course.instructor.replace(/\s+/g, '').toLowerCase()}.jpg`} alt={course.instructor} onError={(e) => { e.currentTarget.src = '/placeholder.svg?height=40&width=40'; }} />
+                          <AvatarFallback>{course.instructor.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-semibold text-lg leading-tight">{course.title}</h3>
+                          <p className="text-xs text-muted-foreground">by {course.instructor}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-yellow-500">★ {course.rating}</span>
+                        <span className="text-xs text-muted-foreground">({course.students} students)</span>
+                      </div>
+                      <div className="mb-2">
+                        <Progress value={course.progress} className="h-2 rounded-xl" />
+                        <span className="text-xs text-muted-foreground">{course.progress}% completed</span>
+                      </div>
+                      <Button className="w-full rounded-xl mt-2" variant={course.status === "completed" ? "outline" : "default"}>
+                        {course.status === "completed" ? "View Certificate" : "Continue"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
