@@ -1,11 +1,3 @@
-// To push your project to GitHub, run these commands in your terminal:
-// git init
-// git remote add origin https://github.com/Ankit500ak/edu.git
-// git branch -M main
-// git add .
-// git commit -m "Initial commit"
-// git push -u origin main
-
 "use client"
 
 import { useEffect, useState } from "react"
@@ -375,6 +367,14 @@ const sidebarItems = [
     isActive: true,
   },
   {
+    title: "Apps",
+    icon: <Grid />,
+    badge: "2",
+    items: [
+      { title: "All Apps", url: "#" },
+      { title: "Recent", url: "#" },
+      { title: "Updates", url: "#", badge: "2" },
+      { title: "Installed", url: "#" },
     ],
   },
   {
