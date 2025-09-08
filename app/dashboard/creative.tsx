@@ -690,7 +690,7 @@ export function DesignaliCreative() {
             <PanelLeft className="h-5 w-5" />
           </Button>
           <div className="flex flex-1 items-center justify-between">
-            <h1 className="text-xl font-semibold">Designali Creative</h1>
+            <h1 className="text-xl font-semibold">Skil Sphere</h1>
             <div className="flex items-center gap-3">
               <TooltipProvider>
                 <Tooltip>
@@ -789,7 +789,7 @@ export function DesignaliCreative() {
                       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
                         <div className="space-y-4">
                           <Badge className="bg-white/20 text-white hover:bg-white/30 rounded-xl">Premium</Badge>
-                          <h2 className="text-3xl font-bold">Welcome to DesignAli Creative Suite</h2>
+                          <h2 className="text-3xl font-bold">Welcome to SkillSphere Suite</h2>
                           <p className="max-w-[600px] text-white/80">
                             Unleash your creativity with our comprehensive suite of professional design tools and
                             resources.
