@@ -29,47 +29,47 @@ export function Footer() {
             </p>
             
             {/* Enhanced Social Media Cards */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               <h4 className="text-lg font-semibold text-white">Follow Us</h4>
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="group border-gray-600 hover:border-blue-400 hover:bg-blue-400/10 transition-all duration-300 p-2 rounded-xl"
+                  className="group border-gray-600 hover:border-blue-400 hover:bg-blue-400/10 transition-all duration-300 p-1 rounded-lg h-7 w-7"
                 >
-                  <Facebook className="h-4 w-4 text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                  <Facebook className="h-3 w-3 text-blue-400 group-hover:scale-110 transition-transform duration-200" />
                 </Button>
                 
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="group border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 p-2 rounded-xl"
+                  className="group border-gray-600 hover:border-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 p-1 rounded-lg h-7 w-7"
                 >
-                  <Twitter className="h-4 w-4 text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
+                  <Twitter className="h-3 w-3 text-cyan-400 group-hover:scale-110 transition-transform duration-200" />
                 </Button>
                 
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="group border-gray-600 hover:border-pink-400 hover:bg-pink-400/10 transition-all duration-300 p-2 rounded-xl"
+                  className="group border-gray-600 hover:border-pink-400 hover:bg-pink-400/10 transition-all duration-300 p-1 rounded-lg h-7 w-7"
                 >
-                  <Instagram className="h-4 w-4 text-pink-400 group-hover:scale-110 transition-transform duration-200" />
+                  <Instagram className="h-3 w-3 text-pink-400 group-hover:scale-110 transition-transform duration-200" />
                 </Button>
                 
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="group border-gray-600 hover:border-blue-500 hover:bg-blue-500/10 transition-all duration-300 p-2 rounded-xl"
+                  className="group border-gray-600 hover:border-blue-500 hover:bg-blue-500/10 transition-all duration-300 p-1 rounded-lg h-7 w-7"
                 >
-                  <Linkedin className="h-4 w-4 text-blue-500 group-hover:scale-110 transition-transform duration-200" />
+                  <Linkedin className="h-3 w-3 text-blue-500 group-hover:scale-110 transition-transform duration-200" />
                 </Button>
                 
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  className="group border-gray-600 hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 p-2 rounded-xl"
+                  className="group border-gray-600 hover:border-red-500 hover:bg-red-500/10 transition-all duration-300 p-1 rounded-lg h-7 w-7"
                 >
-                  <Youtube className="h-4 w-4 text-red-500 group-hover:scale-110 transition-transform duration-200" />
+                  <Youtube className="h-3 w-3 text-red-500 group-hover:scale-110 transition-transform duration-200" />
                 </Button>
               </div>
             </div>
