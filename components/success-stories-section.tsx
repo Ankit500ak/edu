@@ -62,7 +62,7 @@ export function SuccessStoriesSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="pt-8 pb-1 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
@@ -144,21 +144,6 @@ export function SuccessStoriesSection() {
                 />
               ))}
             </div>
-          </div>
-        </div>
-
-        {/* Company Logos */}
-        <div className="text-center">
-          <p className="text-gray-600 mb-8 text-lg font-medium">Our graduates work at top companies worldwide</p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {companyLogos.map((company, index) => (
-              <img
-                key={index}
-                src={company.logo || "/placeholder.svg"}
-                alt={`${company.name} logo`}
-                className="h-8 md:h-10 object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
-              />
-            ))}
           </div>
         </div>
       </div>

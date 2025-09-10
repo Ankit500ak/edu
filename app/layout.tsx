@@ -4,6 +4,7 @@ import { Playfair_Display, Source_Sans_3 } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
+import { AuthProvider } from '@/contexts/auth-context'
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -32,8 +33,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${playfairDisplay.variable} ${sourceSans.variable}`}>
         <Suspense fallback={null}>
-          {children}
-          <Analytics />
+          <AuthProvider>
+            {children}
+            <Analytics />
+          </AuthProvider>
         </Suspense>
       </body>
     </html>

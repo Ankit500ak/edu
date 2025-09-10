@@ -503,30 +503,35 @@ export function DesignaliCreative() {
       url: "/dashboard/courses",
       isActive: pathname === "/dashboard/courses",
     },
-    {
+     {
       title: "Browse Courses",
       icon: <Grid />,
-      url: "#",
+      url: "/dashboard/browse",
+      isActive: pathname === "/dashboard/browse",
     },
-    {
-      title: "Categories",
-      icon: <Layers />,
-      url: "#",
+     {
+      title: "Certificates",
+      icon: <Award />,
+      url: "/dashboard/certificates",
+      isActive: pathname === "/dashboard/certificates",
     },
     {
       title: "Instructors",
       icon: <Users />,
-      url: "#",
+      url: "/dashboard/instructors",
+      isActive: pathname === "/dashboard/instructors",
     },
     {
       title: "Community",
       icon: <MessageSquare />,
-      url: "#",
+      url: "/dashboard/community",
+      isActive: pathname === "/dashboard/community",
     },
     {
       title: "Resources",
       icon: <Bookmark />,
-      url: "#",
+      url: "/dashboard/resources",
+      isActive: pathname === "/dashboard/resources",
     },
   ]
 
@@ -1133,27 +1138,32 @@ export default function MyCoursesDashboard() {
     {
       title: "Browse Courses",
       icon: <Grid />,
-      url: "#",
+      url: "/dashboard/browse",
+      isActive: pathname === "/dashboard/browse",
     },
     {
-      title: "Categories",
-      icon: <Layers />,
-      url: "#",
+      title: "Certificates",
+      icon: <Award />,
+      url: "/dashboard/certificates",
+      isActive: pathname === "/dashboard/certificates",
     },
     {
       title: "Instructors",
       icon: <Users />,
-      url: "#",
+      url: "/dashboard/instructors",
+      isActive: pathname === "/dashboard/instructors",
     },
     {
       title: "Community",
       icon: <MessageSquare />,
-      url: "#",
+      url: "/dashboard/community",
+      isActive: pathname === "/dashboard/community",
     },
     {
       title: "Resources",
       icon: <Bookmark />,
-      url: "#",
+      url: "/dashboard/resources",
+      isActive: pathname === "/dashboard/resources",
     },
   ]
 

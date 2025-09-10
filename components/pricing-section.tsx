@@ -1,6 +1,10 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check, Star, Crown, Zap } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useAuth } from '@/contexts/auth-context'
 
 const pricingPlans = [
   {
@@ -68,8 +72,23 @@ const pricingPlans = [
 ]
 
 export function PricingSection() {
+  const router = useRouter()
+  const { isLoggedIn, showAuthModal } = useAuth()
+
+  const handleEnrollClick = (planName: string) => {
+    if (planName === "Enterprise") {
+      // For enterprise plan, always show contact sales
+      return
+    }
+    
+    if (isLoggedIn) {
+      router.push('/dashboard')
+    } else {
+      showAuthModal('signup')
+    }
+  }
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+    <section id="pricing" className="py-20 bg-gradient-to-b from-white to-slate-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
@@ -130,6 +149,7 @@ export function PricingSection() {
 
                 <CardContent className="space-y-6">
                   <Button
+                    onClick={() => handleEnrollClick(plan.name)}
                     className={`w-full py-3 text-lg font-medium ${
                       plan.popular
                         ? "bg-blue-600 hover:bg-blue-700 text-white"

@@ -4,28 +4,30 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { Menu, X, ShoppingCart, User } from "lucide-react"
+import { useAuth } from '@/contexts/auth-context'
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const router = useRouter();
+  const { isLoggedIn, showAuthModal, logout } = useAuth()
+  const router = useRouter()
+
+  const handleLogout = async () => {
+    await logout()
+    router.push('/')
+  }
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm shadow-sm">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center shadow-md"
-              style={{ backgroundColor: "#0891b2" }}
-            >
-              <span className="font-bold text-xl font-heading" style={{ color: "#ffffff" }}>
-                S
-              </span>
-            </div>
-            <span className="text-2xl font-bold font-heading" style={{ color: "#4b5563" }}>
-              SkillSphere
-            </span>
+            <img
+              src="/logo.png"
+              alt="SkillSphere Logo"
+              className="w-45 h-14 rounded-lg object-cover"
+            />
+            
           </div>
 
           {/* Desktop Navigation */}
@@ -70,21 +72,43 @@ function Header() {
             <Button variant="ghost" size="icon" style={{ color: "#4b5563" }}>
               <User className="h-5 w-5" />
             </Button>
-            <Button
-              variant="outline"
-              className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
-              style={{ borderColor: "#0891b2", color: "#0891b2" }}
-              onClick={() => router.push("/login")}
-            >
-              Log In
-            </Button>
-            <Button
-              className="shadow-md"
-              style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
-              onClick={() => router.push("/signup")}
-            >
-              Get Started
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <Button
+                  variant="outline"
+                  className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
+                  style={{ borderColor: "#0891b2", color: "#0891b2" }}
+                  onClick={() => router.push("/dashboard")}
+                >
+                  Dashboard
+                </Button>
+                <Button
+                  className="shadow-md"
+                  style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="outline"
+                  className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
+                  style={{ borderColor: "#0891b2", color: "#0891b2" }}
+                  onClick={() => showAuthModal('login')}
+                >
+                  Log In
+                </Button>
+                <Button
+                  className="shadow-md"
+                  style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
+                  onClick={() => showAuthModal('signup')}
+                >
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,7 +125,7 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
+          <div className="md:hidden mt-2 pb-2 border-t border-gray-200 pt-2">
             <nav className="flex flex-col space-y-4">
               <a
                 href="#courses"
@@ -133,20 +157,41 @@ function Header() {
                 About
               </a>
               <div className="flex flex-col space-y-2 pt-4">
-                <Button
-                  variant="outline"
-                  className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
-                  style={{ borderColor: "#0891b2", color: "#0891b2" }}
-                  onClick={() => router.push("/login")}
-                >
-                  Log In
-                </Button>
-                <Button
-                  style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
-                  onClick={() => router.push("/signup")}
-                >
-                  Get Started
-                </Button>
+                {isLoggedIn ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
+                      style={{ borderColor: "#0891b2", color: "#0891b2" }}
+                      onClick={() => router.push("/dashboard")}
+                    >
+                      Dashboard
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="border-cyan-600 hover:bg-cyan-600 bg-transparent"
+                      style={{ borderColor: "#0891b2", color: "#0891b2" }}
+                      onClick={() => showAuthModal('login')}
+                    >
+                      Log In
+                    </Button>
+                    <Button
+                      style={{ backgroundColor: "#0891b2", color: "#ffffff" }}
+                      onClick={() => showAuthModal('signup')}
+                    >
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </nav>
           </div>
