@@ -17,7 +17,7 @@ function Header() {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm shadow-sm">
+    <header className="bg-[#1b2434] border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm shadow-sm">
       <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -35,34 +35,34 @@ function Header() {
             <a
               href="#courses"
               className="hover:text-cyan-600 transition-colors font-medium"
-              style={{ color: "#4b5563" }}
+              style={{ color: "#ffffffff" }}
             >
               All Courses
             </a>
             <a
               href="#categories"
               className="hover:text-cyan-600 transition-colors font-medium"
-              style={{ color: "#4b5563" }}
+              style={{ color: "#ffffffff" }}
             >
               Categories
             </a>
             <a
               href="#pricing"
               className="hover:text-cyan-600 transition-colors font-medium"
-              style={{ color: "#4b5563" }}
+              style={{ color: "#ffffffff" }}
             >
               Pricing
             </a>
             <a
               href="#success-stories"
               className="hover:text-cyan-600 transition-colors font-medium"
-              style={{ color: "#4b5563" }}
+              style={{ color: "#ffffffff" }}
             >
               About
             </a>
           </nav>
 
-          {/* Search Bar removed as requested */}
+          
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-3">
@@ -116,7 +116,7 @@ function Header() {
             variant="ghost"
             size="icon"
             className="md:hidden"
-            style={{ color: "#4b5563" }}
+            style={{ color: "#ffffffff" }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -130,29 +130,35 @@ function Header() {
               <a
                 href="#courses"
                 className="hover:text-cyan-600 transition-colors font-medium"
-                style={{ color: "#4b5563" }}
+                style={{ color: "#ffffffff" }}
               >
                 All Courses
               </a>
               <a
                 href="#categories"
                 className="hover:text-cyan-600 transition-colors font-medium"
-                style={{ color: "#4b5563" }}
+                style={{ color: "#ffffffff" }}
               >
                 Categories
               </a>
-              {/* Instructors link removed */}
+              <a
+                href="#instructors"
+                className="hover:text-cyan-600 transition-colors font-medium"
+                style={{ color: "#ffffffff" }}
+              >
+                Instructors
+              </a>
               <a
                 href="#pricing"
                 className="hover:text-cyan-600 transition-colors font-medium"
-                style={{ color: "#4b5563" }}
+                style={{ color: "#ffffffff" }}
               >
                 Pricing
               </a>
               <a
                 href="#success-stories"
                 className="hover:text-cyan-600 transition-colors font-medium"
-                style={{ color: "#4b5563" }}
+                style={{ color: "#ffffffff" }}
               >
                 About
               </a>
