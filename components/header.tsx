@@ -22,12 +22,13 @@ function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <img
-              src="/logo.png"
-              alt="SkillSphere Logo"
-              className="w-45 h-14 rounded-lg object-cover"
-            />
-            
+            <a href="https://youngthames.com" rel="noopener noreferrer">
+              <img
+                src="/logo.png"
+                alt="SkillSphere Logo"
+                className="w-45 h-14 rounded-lg object-cover"
+              />
+            </a>
           </div>
 
           {/* Desktop Navigation */}
